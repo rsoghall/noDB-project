@@ -7,13 +7,12 @@ function AverageA1c (props) {
         return a + c.a1C
       }, 0)
       let accuA1c = total/blood.length
-      let avgA1c = accuA1c.toFixed(1)
+      let avgA1c = 'A1c = ' + accuA1c.toFixed(1)
       
   return (
-    <div>
-    
+      <h1>
       {avgA1c}
-    </div>
+      </h1>
   )
 }
 

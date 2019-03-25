@@ -16,18 +16,29 @@ class Result extends Component {
 
     handleSubmit =(e) => {
         e.preventDefault()
-        const {date, time, bloodGlucose} = this.state
-        this.props.add(date, time, bloodGlucose)
+        this.props.updateBG(this.state)
         this.setState({
           date: '',
           time: '',
-          bloodGlucose: null
-        })  
+          bloodGlucose: '',
+          edit: false
+        })
+       
       }
+
+
+    
+    calculateA1c =() => {
+      const {bloodGlucose} = this.state
+        let a1C = (46.7 + +bloodGlucose)/28.7
+        return (a1C.toFixed(1))
+
+    }
+    
     handleChange = (e) => {
         let {name, value} = e.target
         this.setState({
-            [name]: value,
+            [name]: value,   
             
         })
     }
@@ -35,13 +46,6 @@ class Result extends Component {
     handleEditClick = () => {
         this.setState({
             edit: true
-        })
-    }
-
-    handleUpdateClick = () => {
-        this.props.updateBG(this.state)
-        this.setState({
-            edit: false
         })
     }
 
@@ -54,29 +58,24 @@ class Result extends Component {
   render() {
       let {date, time, bloodGlucose} = this.state
     return this.state.edit ? (
-      <form onSumbit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <input onChange={this.handleChange} value={date} type="text" name="date" placeholder="Date"/>
         <input onChange={this.handleChange} value={time} type="text" name="time" placeholder="Time"/>
         <input onChange={this.handleChange} value={bloodGlucose} type="number" name="bloodGlucose" placeholder="Blood Glucose"/>
-        <button onClick={this.handleUpdateClick}> Edit BG </button>
-        <button onClick={this.handleDeleteClick}> Delete BG </button>
+        <input disabled value={this.calculateA1c()} type="text"/>
+        <div>
+          <button type="submit"> Submit </button>
+          <button onClick={this.handleDeleteClick}> Delete BG </button>
+        </div>
       </form>
     ) : (
-      <div style={{
-            display:'flex', 
-            flexDirection:'row',
-            justifyContent:'space-around',
-            alignItems:'center',
-            width: '100vw',
-            // position:'absolute',
-            // marginLeft:'13rem',
-            borderBottom: '1px solid #C9D4DE'
-            }}>
-        <h3>{this.props.bg.date}</h3>
-        <h3>{this.props.bg.time}</h3>
-        <h3>{this.props.bg.bloodGlucose}</h3>
-        <h3>{this.props.bg.a1C}</h3>
-        <button onClick={this.handleEditClick}>edit</button>
+      <div className="inputData">
+          <h2>{this.props.bg.date}</h2>
+          <h2>{this.props.bg.time}</h2>
+          <h2>{this.props.bg.bloodGlucose}</h2>
+          <h2>{this.props.bg.a1C.toFixed(1)}</h2>
+          <button onClick={this.handleEditClick}>edit</button>
+    
       </div>
 
     )

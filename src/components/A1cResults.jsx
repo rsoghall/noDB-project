@@ -55,17 +55,26 @@ class A1cResults extends Component {
   render() {
     return (
       <div>
+          <div className="Average">
+              <AverageA1c 
+                 blood={this.state.blood}/>
+                 <h2 className="inputBlood">Input Blood Glucose Reading</h2>
+           </div>
+
+           <div className="titleBar">
+            <h3>Date</h3>
+            <h3>Time</h3>
+            <h3>BG</h3>
+            <h3>A1c</h3>
+            <h3>Edit</h3>
+          </div>
+           
           <Results 
             blood={this.state.blood}
             handleCreateBG={this.createBG}
             updateBG={this.updateBG}
             deleteBG={this.deleteBG}
-            />
-            <div className="Average">
-              <AverageA1c
-                 blood={this.state.blood}/>
-            </div>
-        
+            /> 
       </div>
     )
   }
